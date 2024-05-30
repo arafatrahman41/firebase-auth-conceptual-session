@@ -1,14 +1,19 @@
-const Register = () => {
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
-    const handleRegister = e => {
-        e.preventDefault();
-        const name = e.target.name.value;
-        const photo = e.target.photo.value;
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        const confirmPassword = e.target.confirmPassword.value;
-        console.log(name, photo, email, password, confirmPassword);
-    }
+const Register = () => {
+  const { registerUser } = useContext(AuthContext);
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const photo = e.target.photo.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+    console.log(name, photo, email, password, confirmPassword);
+    registerUser(email, password);
+  };
 
   return (
     <div className="w-[40%] mx-auto min-w-[500px] border-2 border-gray-300 p-4 rounded-xl">
@@ -26,7 +31,7 @@ const Register = () => {
           <p>Photo</p>
           <input
             type="text"
-            name= "photo"
+            name="photo"
             placeholder="Type here"
             className="input input-bordered w-full"
           />
@@ -35,7 +40,7 @@ const Register = () => {
           <p>Email</p>
           <input
             type="text"
-            name = "email"
+            name="email"
             placeholder="Type here"
             className="input input-bordered w-full"
           />
@@ -58,7 +63,9 @@ const Register = () => {
             className="input input-bordered w-full"
           />
         </div>
-        <button type="submit" className="btn btn-primary w-full mt-4">Register</button>
+        <button type="submit" className="btn btn-primary w-full mt-4">
+          Register
+        </button>
       </form>
     </div>
   );

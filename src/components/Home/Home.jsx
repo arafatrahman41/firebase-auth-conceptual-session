@@ -1,7 +1,12 @@
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+
 const Home = () => {
+    const user = useContext(AuthContext);
+    console.log(user);
     return (
-        <div>
-            <h1>This is the home section</h1>
+        <div className="flex justify-center items-center h-screen">
+           <h1>home</h1>
         </div>
     );
 };
