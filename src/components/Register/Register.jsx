@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Register = () => {
-  const { registerUser } = useContext(AuthContext);
+  const { registerUser, setUser } = useContext(AuthContext);
+  const [error, setError] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -11,8 +12,31 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target.confirmPassword.value;
+
+    if (password.length < 6) {
+      setError("Password should at least 6 character");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Password didn't match");
+      return;
+    }
+    if (!/\d{2,}$/.test(password)) {
+      setError("Password must end with at least 2 numbers");
+      return;
+    }
+    if (!/[!@#%^&*]/.test(password)) {
+      setError("Please add a special character like !,@,#,%,^,&,*");
+      return;
+    }
+    setError("");
+
     console.log(name, photo, email, password, confirmPassword);
-    registerUser(email, password);
+    registerUser(email, password)
+    .then(result => {
+      setUser(result.user)
+    })
+    .catch(error => setError(error.message))
   };
 
   return (
@@ -63,6 +87,7 @@ const Register = () => {
             className="input input-bordered w-full"
           />
         </div>
+        {error && <small className="text-red-500">{error}</small>}
         <button type="submit" className="btn btn-primary w-full mt-4">
           Register
         </button>
